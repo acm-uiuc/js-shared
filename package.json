@@ -1,10 +1,16 @@
 {
   "name": "@acm-uiuc/js-shared",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "ACM UIUC Shared JS code",
-  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc"
+  },
+  "./*": {
+    "import": "./dist/*.mjs",
+    "require": "./dist/*.js",
+    "types": "./dist/*.d.ts"
   },
   "files": [
     "dist"
