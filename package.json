@@ -1,6 +1,6 @@
 {
   "name": "@acm-uiuc/js-shared",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "ACM UIUC Shared JS code",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
