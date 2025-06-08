@@ -19,7 +19,7 @@ export const SIGList = [
     "SIGtricity",
 ] as [string, ...string[]];
 
-export const CommitteeList = [
+export const CommitteeCoreList = [
     "Infrastructure Committee",
     "Social Committee",
     "Mentorship Committee",
@@ -28,4 +28,8 @@ export const CommitteeList = [
     "Marketing Committee",
 ] as [string, ...string[]];
 
-export const OrganizationList = ["ACM", ...SIGList, ...CommitteeList] as [string, ...string[]];
+export const CommitteePartnerList = ["Reflections | Projections", "HackIllinois"]
+
+export const CoreOrganizationList = ["ACM", ...SIGList, ...CommitteeCoreList] as [string, ...string[]];
+
+export const AllOrganizationList = [...CoreOrganizationList, ...CommitteePartnerList]
