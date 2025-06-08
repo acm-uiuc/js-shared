@@ -32,4 +32,4 @@ export const CommitteePartnerList = ["Reflections | Projections", "HackIllinois"
 
 export const CoreOrganizationList = ["ACM", ...SIGList, ...CommitteeCoreList] as [string, ...string[]];
 
-export const AllOrganizationList = [...CoreOrganizationList, ...CommitteePartnerList]
+export const AllOrganizationList = [...CoreOrganizationList, ...CommitteePartnerList] as [string, ...string[]];
