@@ -7,6 +7,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
+      id-token: write
       contents: read
     steps:
       - uses: actions/checkout@v4
@@ -14,6 +15,6 @@ jobs:
         with:
           node-version: "20.x"
       - run: yarn build
-      - run: yarn publish --provenance --access public
+      - run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
