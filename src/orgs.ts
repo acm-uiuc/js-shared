@@ -1,69 +1,48 @@
-import { EnsureUniqueValues } from "util";
+export enum OrgType {
+    MAIN = "main",
+    SIG = "sig",
+    COMMITTEE = "committee",
+    MISC = "misc",
+}
 
-export const SIGList = [
-    "SIGPwny",
-    "SIGCHI",
-    "GameBuilders",
-    "SIGAIDA",
-    "SIGGRAPH",
-    "ICPC",
-    "SIGMobile",
-    "SIGMusic",
-    "GLUG",
-    "SIGNLL",
-    "SIGma",
-    "SIGQuantum",
-    "SIGecom",
-    "SIGPLAN",
-    "SIGPolicy",
-    "SIGARCH",
-    "SIGRobotics",
-    "SIGtricity",
-] as [string, ...string[]];
+export const Organizations = {
+    "A01": { name: "ACM", type: OrgType.MAIN, shortcode: "acm" },
+    "S01": { name: "SIGPwny", type: OrgType.SIG, shortcode: "sigpwny" },
+    "S02": { name: "SIGCHI", type: OrgType.SIG, shortcode: "sigchi" },
+    "S03": { name: "GameBuilders", type: OrgType.SIG, shortcode: "gamebuilders" },
+    "S04": { name: "SIGAIDA", type: OrgType.SIG, shortcode: "sigaida" },
+    "S05": { name: "SIGGRAPH", type: OrgType.SIG, shortcode: "siggraph" },
+    "S06": { name: "ICPC", type: OrgType.SIG, shortcode: "icpc" },
+    "S07": { name: "SIGMobile", type: OrgType.SIG, shortcode: "sigmobile" },
+    "S08": { name: "SIGMusic", type: OrgType.SIG, shortcode: "sigmusic" },
+    "S09": { name: "GLUG", type: OrgType.SIG, shortcode: "glug" },
+    "S10": { name: "SIGNLL", type: OrgType.SIG, shortcode: "signll" },
+    "S11": { name: "SIGma", type: OrgType.SIG, shortcode: "sigma" },
+    "S12": { name: "SIGQuantum", type: OrgType.SIG, shortcode: "sigquantum" },
+    "S13": { name: "SIGecom", type: OrgType.SIG, shortcode: "sigecom" },
+    "S14": { name: "SIGPLAN", type: OrgType.SIG, shortcode: "sigplan" },
+    "S15": { name: "SIGPolicy", type: OrgType.SIG, shortcode: "sigpolicy" },
+    "S16": { name: "SIGARCH", type: OrgType.SIG, shortcode: "sigarch" },
+    "S17": { name: "SIGRobotics", type: OrgType.SIG, shortcode: "sigrobotics" },
+    "S18": { name: "SIGtricity", type: OrgType.SIG, shortcode: "sigtricity" },
 
-export const CommitteeCoreList = [
-    "Infrastructure Committee",
-    "Social Committee",
-    "Mentorship Committee",
-    "Academic Committee",
-    "Corporate Committee",
-    "Marketing Committee",
-] as [string, ...string[]];
+    "C01": { name: "Infrastructure Committee", type: OrgType.COMMITTEE, shortcode: "infra" },
+    "C02": { name: "Social Committee", type: OrgType.COMMITTEE, shortcode: "social" },
+    "C03": { name: "Mentorship Committee", type: OrgType.COMMITTEE, shortcode: "mentorship" },
+    "C04": { name: "Academic Committee", type: OrgType.COMMITTEE, shortcode: "academic" },
+    "C05": { name: "Corporate Committee", type: OrgType.COMMITTEE, shortcode: "corporate" },
+    "C06": { name: "Marketing Committee", type: OrgType.COMMITTEE, shortcode: "marketing" },
 
-export const CommitteePartnerList = ["Reflections | Projections", "HackIllinois"]
+    "C07": { name: "Reflections | Projections", type: OrgType.COMMITTEE, shortcode: "reflproj" },
+    "C08": { name: "HackIllinois", type: OrgType.COMMITTEE, shortcode: "hackillinois" },
+} as const;
 
-export const CoreOrganizationList = ["ACM", ...SIGList, ...CommitteeCoreList] as [string, ...string[]];
+export type OrganizationId = keyof typeof Organizations;
+export type Organization = (typeof Organizations)[OrganizationId];
+export type OrganizationName = Organization["name"];
 
-export const AllOrganizationList = [...CoreOrganizationList, ...CommitteePartnerList] as [string, ...string[]];
-
-export type ACMOrganization = typeof AllOrganizationList[number];
-
-export const OrganizationShortIdentifierMapping = {
-    "ACM": "acm",
-    "SIGPwny": "sigpwny",
-    "SIGCHI": "sigchi",
-    "GameBuilders": "gamebuilders",
-    "SIGAIDA": "sigaida",
-    "SIGGRAPH": "siggraph",
-    "ICPC": "icpc",
-    "SIGMobile": "sigmobile",
-    "SIGMusic": "sigmusic",
-    "GLUG": "glug",
-    "SIGNLL": "signll",
-    "SIGma": "sigma",
-    "SIGQuantum": "sigquantum",
-    "SIGecom": "sigecom",
-    "SIGPLAN": "sigplan",
-    "SIGPolicy": "sigpolicy",
-    "SIGARCH": "sigarch",
-    "SIGRobotics": "sigrobotics",
-    "SIGtricity": "sigtricity",
-    "Infrastructure Committee": "infra",
-    "Social Committee": "social",
-    "Mentorship Committee": "mentorship",
-    "Academic Committee": "academic",
-    "Corporate Committee": "corporate",
-    "Marketing Committee": "marketing",
-    "Reflections | Projections": "reflproj",
-    "HackIllinois": "hackillinois",
-} as const satisfies EnsureUniqueValues<Record<ACMOrganization, string>>;
+export function getOrgsByType(type: OrgType): Array<Organization & { id: OrganizationId }> {
+    return (Object.entries(Organizations) as Array<[OrganizationId, Organization]>)
+        .filter(([_, org]) => org.type === type)
+        .map(([id, org]) => ({ ...org, id }));
+}
