@@ -37,6 +37,7 @@ export const Organizations = {
     "C08": { name: "HackIllinois", type: OrgType.COMMITTEE, shortcode: "hackillinois" },
 } as const;
 
+export const AllOrganizationNameList = Object.values(Organizations).map(x => x.name);
 export type OrganizationId = keyof typeof Organizations;
 export type Organization = (typeof Organizations)[OrganizationId];
 export type OrganizationName = Organization["name"];
