@@ -42,6 +42,25 @@ export type OrganizationId = keyof typeof Organizations;
 export type Organization = (typeof Organizations)[OrganizationId];
 export type OrganizationName = Organization["name"];
 
+// Create a reverse lookup map from name to ID
+export const OrganizationsByName = Object.entries(Organizations).reduce(
+    (acc, [id, org]) => {
+        if (acc[org.name]) {
+            throw new Error(`Duplicate organization name: ${org.name}`);
+        }
+        acc[org.name] = id as OrganizationId;
+        return acc;
+    },
+    {} as Record<OrganizationName, OrganizationId>
+);
+
+export function getOrgByName(name: OrganizationName): (Organization & { id: OrganizationId }) | undefined {
+    const id = OrganizationsByName[name];
+    if (!id) return undefined;
+
+    return { ...Organizations[id], id };
+}
+
 export function getOrgsByType(type: OrgType): Array<Organization & { id: OrganizationId }> {
     return (Object.entries(Organizations) as Array<[OrganizationId, Organization]>)
         .filter(([_, org]) => org.type === type)
