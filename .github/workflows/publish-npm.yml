@@ -4,7 +4,7 @@ on:
     types: [published]
 
   workflow_dispatch:
-  
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,6 +20,7 @@ jobs:
 
       - name: Build library 
         run: yarn build
-
+      - name: Update NPM to the latest version
+        run: npm install -g npm@latest
       - name: Publish to NPM
         run: npm publish --provenance --access public
