@@ -5,14 +5,25 @@ export enum OrgType {
     MISC = "misc",
 }
 
-export type Organization = {
-    name: string
-    type: OrgType
-    shortcode: string
-    color: string
-}
+// IDs are the source of truth
+export const AllOrganizationIdList = [
+    "A01",
+    "S01", "S02", "S03", "S04", "S05", "S06", "S07", "S08", "S09",
+    "S10", "S11", "S12", "S13", "S14", "S15", "S16", "S17", "S18",
+    "C01", "C02", "C03", "C04", "C05", "C06", "C07", "C08",
+] as const;
 
-export const Organizations = {
+export type OrganizationId = (typeof AllOrganizationIdList)[number];
+
+export type Organization = {
+    name: string;
+    type: OrgType;
+    shortcode: string;
+    color: string;
+};
+
+// This MUST have an entry for every ID (compile error if missing)
+export const Organizations: { readonly [K in OrganizationId]: Organization } = {
     "A01": { name: "ACM", type: OrgType.MAIN, shortcode: "acm", color: "#4577f8" },
     "S01": { name: "SIGPwny", type: OrgType.SIG, shortcode: "sigpwny", color: "#33cc55" },
     "S02": { name: "SIGCHI", type: OrgType.SIG, shortcode: "sigchi", color: "#EEAE48" },
@@ -32,20 +43,17 @@ export const Organizations = {
     "S16": { name: "SIGARCH", type: OrgType.SIG, shortcode: "sigarch", color: "#155CD0" },
     "S17": { name: "SIGRobotics", type: OrgType.SIG, shortcode: "sigrobotics", color: "#B0B0B0" },
     "S18": { name: "SIGtricity", type: OrgType.SIG, shortcode: "sigtricity", color: "#4577f8" },
-
     "C01": { name: "Infrastructure Committee", type: OrgType.COMMITTEE, shortcode: "infra", color: "#4577f8" },
     "C02": { name: "Social Committee", type: OrgType.COMMITTEE, shortcode: "social", color: "#4577f8" },
     "C03": { name: "Mentorship Committee", type: OrgType.COMMITTEE, shortcode: "mentorship", color: "#4577f8" },
     "C04": { name: "Academic Committee", type: OrgType.COMMITTEE, shortcode: "academic", color: "#4577f8" },
     "C05": { name: "Corporate Committee", type: OrgType.COMMITTEE, shortcode: "corporate", color: "#4577f8" },
     "C06": { name: "Marketing Committee", type: OrgType.COMMITTEE, shortcode: "marketing", color: "#4577f8" },
-
     "C07": { name: "Reflections | Projections", type: OrgType.COMMITTEE, shortcode: "reflproj", color: "#4577f8" },
     "C08": { name: "HackIllinois", type: OrgType.COMMITTEE, shortcode: "hackillinois", color: "#4577f8" },
-} as const satisfies Record<string, Organization>;
+};
 
-// Derived types from the const object
-export type OrganizationId = keyof typeof Organizations;
+// Derived types
 export type OrganizationName = (typeof Organizations)[OrganizationId]["name"];
 
 // Reverse lookup type and value
@@ -56,6 +64,8 @@ export type OrganizationsByNameType = {
 export const OrganizationsByName = Object.fromEntries(
     Object.entries(Organizations).map(([id, org]) => [org.name, id])
 ) as OrganizationsByNameType;
+
+export const AllOrganizationNameList = AllOrganizationIdList.map(id => Organizations[id].name) as OrganizationName[];
 
 // Helper to get ID from name (typed return)
 export function getOrgIdByName<N extends OrganizationName>(name: N): OrganizationsByNameType[N] {
@@ -75,10 +85,12 @@ export function isValidOrgName(name: string): name is OrganizationName {
     return name in OrganizationsByName;
 }
 
-export function getOrgsByType(type: OrgType): Array<Organization & { id: OrganizationId }> {
-    return (Object.entries(Organizations) as Array<[OrganizationId, Organization]>)
-        .filter(([_, org]) => org.type === type)
-        .map(([id, org]) => ({ ...org, id }));
+export function isValidOrgId(id: string): id is OrganizationId {
+    return id in Organizations;
 }
 
-export const AllOrganizationNameList: OrganizationName[] = Object.values(Organizations).map(x => x.name);
+export function getOrgsByType(type: OrgType): Array<Organization & { id: OrganizationId }> {
+    return AllOrganizationIdList
+        .filter(id => Organizations[id].type === type)
+        .map(id => ({ ...Organizations[id], id }));
+}
