@@ -12,7 +12,7 @@ export type Organization = {
     color: string
 }
 
-export const Organizations: Record<string, Organization> = {
+export const Organizations = {
     "A01": { name: "ACM", type: OrgType.MAIN, shortcode: "acm", color: "#4577f8" },
     "S01": { name: "SIGPwny", type: OrgType.SIG, shortcode: "sigpwny", color: "#33cc55" },
     "S02": { name: "SIGCHI", type: OrgType.SIG, shortcode: "sigchi", color: "#EEAE48" },
@@ -42,29 +42,37 @@ export const Organizations: Record<string, Organization> = {
 
     "C07": { name: "Reflections | Projections", type: OrgType.COMMITTEE, shortcode: "reflproj", color: "#4577f8" },
     "C08": { name: "HackIllinois", type: OrgType.COMMITTEE, shortcode: "hackillinois", color: "#4577f8" },
-} as const;
+} as const satisfies Record<string, Organization>;
 
-export const AllOrganizationNameList = Object.values(Organizations).map(x => x.name);
+// Derived types from the const object
 export type OrganizationId = keyof typeof Organizations;
-export type OrganizationName = Organization["name"];
+export type OrganizationName = (typeof Organizations)[OrganizationId]["name"];
 
-// Create a reverse lookup map from name to ID
-export const OrganizationsByName = Object.entries(Organizations).reduce(
-    (acc, [id, org]) => {
-        if (acc[org.name]) {
-            throw new Error(`Duplicate organization name: ${org.name}`);
-        }
-        acc[org.name] = id as OrganizationId;
-        return acc;
-    },
-    {} as Record<OrganizationName, OrganizationId>
-);
+// Reverse lookup type and value
+export type OrganizationsByNameType = {
+    [K in OrganizationId as (typeof Organizations)[K]["name"]]: K;
+};
 
-export function getOrgByName(name: OrganizationName): (Organization & { id: OrganizationId }) | undefined {
+export const OrganizationsByName = Object.fromEntries(
+    Object.entries(Organizations).map(([id, org]) => [org.name, id])
+) as OrganizationsByNameType;
+
+// Helper to get ID from name (typed return)
+export function getOrgIdByName<N extends OrganizationName>(name: N): OrganizationsByNameType[N] {
+    return OrganizationsByName[name];
+}
+
+// Helper to get org by name (typed return)
+export function getOrgByName<N extends OrganizationName>(
+    name: N
+): (typeof Organizations)[OrganizationsByNameType[N]] & { id: OrganizationsByNameType[N] } {
     const id = OrganizationsByName[name];
-    if (!id) return undefined;
-
     return { ...Organizations[id], id };
+}
+
+// For cases where you have an unknown string and need to check
+export function isValidOrgName(name: string): name is OrganizationName {
+    return name in OrganizationsByName;
 }
 
 export function getOrgsByType(type: OrgType): Array<Organization & { id: OrganizationId }> {
@@ -72,3 +80,5 @@ export function getOrgsByType(type: OrgType): Array<Organization & { id: Organiz
         .filter(([_, org]) => org.type === type)
         .map(([id, org]) => ({ ...org, id }));
 }
+
+export const AllOrganizationNameList: OrganizationName[] = Object.values(Organizations).map(x => x.name);
