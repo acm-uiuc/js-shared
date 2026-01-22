@@ -20,11 +20,12 @@ export type Organization = {
     type: OrgType;
     shortcode: string;
     color: string;
+    stripeAccountId?: string;
 };
 
 // This MUST have an entry for every ID (compile error if missing)
 export const Organizations: { readonly [K in OrganizationId]: Organization } = {
-    "A01": { name: "ACM", type: OrgType.MAIN, shortcode: "acm", color: "#4577f8" },
+    "A01": { name: "ACM", type: OrgType.MAIN, shortcode: "acm", color: "#4577f8", stripeAccountId: "acct_19mShiDiGOXU9RuS" },
     "S01": { name: "SIGPwny", type: OrgType.SIG, shortcode: "sigpwny", color: "#33cc55" },
     "S02": { name: "SIGCHI", type: OrgType.SIG, shortcode: "sigchi", color: "#EEAE48" },
     "S03": { name: "GameBuilders", type: OrgType.SIG, shortcode: "gamebuilders", color: "#29386D" },
