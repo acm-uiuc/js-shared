@@ -1,12 +1,14 @@
 {
   "name": "@acm-uiuc/js-shared",
-  "version": "3.5.0",
+  "version": "3.6.0",
   "description": "ACM UIUC Shared JS code",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "format:check": "prettier . --check && eslint .",
+    "format:fix": "prettier . --write && eslint . --fix"
   },
   "files": [
     "dist"
@@ -23,7 +25,16 @@
   "homepage": "https://github.com/acm-uiuc/js-shared#readme",
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
   "devDependencies": {
-    "typescript": "^5.8.3"
+    "@eslint/js": "^10.0.1",
+    "@typescript-eslint/eslint-plugin": "^8.55.0",
+    "@typescript-eslint/parser": "^8.55.0",
+    "eslint": "^10.0.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "globals": "^17.3.0",
+    "prettier": "^3.8.1",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.55.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
