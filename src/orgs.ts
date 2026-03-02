@@ -26,6 +26,7 @@ export const AllOrganizationIdList = [
   "S16",
   "S17",
   "S18",
+  "S19",
   "C01",
   "C02",
   "C03",
@@ -87,7 +88,12 @@ export const Organizations: { readonly [K in OrganizationId]: Organization } = {
     shortcode: "siggraph",
     color: "#7896A7",
   },
-  S06: { name: "ICPC", type: OrgType.SIG, shortcode: "icpc", color: "#AF2A23" },
+  S06: {
+    name: "ICPC",
+    type: OrgType.SIG,
+    shortcode: "icpc",
+    color: "#AF2A23",
+  },
   S07: {
     name: "SIGMobile",
     type: OrgType.SIG,
@@ -100,7 +106,12 @@ export const Organizations: { readonly [K in OrganizationId]: Organization } = {
     shortcode: "sigmusic",
     color: "#F4DCA3",
   },
-  S09: { name: "GLUG", type: OrgType.SIG, shortcode: "glug", color: "#E94A27" },
+  S09: {
+    name: "GLUG",
+    type: OrgType.SIG,
+    shortcode: "glug",
+    color: "#E94A27",
+  },
   S10: {
     name: "SIGNLL",
     type: OrgType.SIG,
@@ -154,6 +165,12 @@ export const Organizations: { readonly [K in OrganizationId]: Organization } = {
     name: "SIGtricity",
     type: OrgType.SIG,
     shortcode: "sigtricity",
+    color: "#4577f8",
+  },
+  S19: {
+    name: "Agent Fan Club",
+    type: OrgType.SIG,
+    shortcode: "agentfc",
     color: "#4577f8",
   },
   C01: {
