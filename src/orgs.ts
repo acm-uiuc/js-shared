@@ -168,7 +168,7 @@ export const Organizations: { readonly [K in OrganizationId]: Organization } = {
     color: "#4577f8",
   },
   S19: {
-    name: "agent fan club",
+    name: "Agent Fan Club",
     type: OrgType.SIG,
     shortcode: "agentfc",
     color: "#4577f8",
