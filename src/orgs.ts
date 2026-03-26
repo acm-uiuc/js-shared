@@ -63,7 +63,7 @@ export const Organizations: { readonly [K in OrganizationId]: Organization } = {
     type: OrgType.SIG,
     shortcode: "sigpwny",
     color: "#33cc55",
-    contactEmailOverride: "hello@sigpwny.com"
+    contactEmailOverride: "hello@sigpwny.com",
   },
   S02: {
     name: "SIGCHI",
